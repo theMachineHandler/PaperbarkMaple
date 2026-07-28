@@ -36,6 +36,29 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
 
+RUN dnf install -y \
+    cinnamon \
+    cinnamon-control-center \
+    slick-greeter \
+    slick-greeter-cinnamon \
+    nemo-fileroller \
+    nemo-image-converter \
+    nemo-preview \
+    xed \
+    xreader \
+    eom \
+    gvfs-mtp \
+    gvfs-smb \
+    NetworkManager-wifi \
+    NetworkManager-bluetooth \
+    nm-connection-editor \
+    pipewire-alsa \
+    pipewire-pulseaudio \
+    wireplumber \
+    xdg-user-dirs-gtk \
+    qt6-qtwayland-adwaita-decoration \
+    paper-icon-theme
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
