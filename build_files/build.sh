@@ -13,6 +13,8 @@ dnf5 install -y \
     tmux \
     cinnamon \
     cinnamon-control-center \
+    firefox \
+    gnome-terminal \
     slick-greeter \
     slick-greeter-cinnamon \
     nemo-fileroller \
