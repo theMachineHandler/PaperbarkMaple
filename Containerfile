@@ -59,6 +59,10 @@ RUN dnf5 install -y \
     qt6-qtwayland-adwaita-decoration \
     paper-icon-theme
 
+RUN mkdir -p /var/cache/lightdm /var/lib/lightdm-data
+
+RUN systemctl enable lightdm.service
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
