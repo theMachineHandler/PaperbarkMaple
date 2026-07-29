@@ -30,29 +30,6 @@ FROM quay.io/fedora/fedora-bootc:44
 ## make modifications desired in your image and install packages by modifying the build.sh script
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
 
-RUN dnf5 install -y \
-    cinnamon \
-    cinnamon-control-center \
-    slick-greeter \
-    slick-greeter-cinnamon \
-    nemo-fileroller \
-    nemo-image-converter \
-    nemo-preview \
-    xed \
-    xreader \
-    eom \
-    gvfs-mtp \
-    gvfs-smb \
-    NetworkManager-wifi \
-    NetworkManager-bluetooth \
-    nm-connection-editor \
-    pipewire-alsa \
-    pipewire-pulseaudio \
-    wireplumber \
-    xdg-user-dirs-gtk \
-    qt6-qtwayland-adwaita-decoration \
-    paper-icon-theme
-
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
