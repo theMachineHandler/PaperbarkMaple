@@ -2,18 +2,37 @@
 
 set -ouex pipefail
 
-# Copy the contents of system_files/ of the git repo to /
-cp -avf "/ctx/system_files"/. /
-
 ### Install packages
 
 # Packages can be installed from any enabled yum repo on the image.
 # RPMfusion repos are available by default in ublue main images
 # List of rpmfusion packages can be found here:
 # https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/43/x86_64/repoview/index.html&protocol=https&redirect=1
-
 # this installs a package from fedora repos
-dnf5 install -y tmux
+dnf5 install -y tmux 
+    cinnamon \
+    cinnamon-control-center \
+    slick-greeter \
+    slick-greeter-cinnamon \
+    nemo-fileroller \
+    nemo-image-converter nemo-preview
+    xed \
+    xreader \
+    eom \
+    gvfs-mtp \
+    gvfs-smb \
+    NetworkManager-wifi \
+    NetworkManager-bluetooth \
+    nm-connection-editor \
+    pipewire-alsa \
+    pipewire-pulseaudio \
+    wireplumber \
+    xdg-user-dirs-gtk \
+    qt6-qtwayland-adwaita-decoration \
+    paper-icon-theme
+    
+# Copy the contents of system_files/ of the git repo to /
+cp -avf "/ctx/system_files"/. /
 
 # Use a COPR Example:
 #
