@@ -196,12 +196,6 @@ RUN \
     # Temporary files
     rm -rf /tmp/* && \
     \
-    # Runtime files created during the build
-    find /run -mindepth 1 \
-        ! -path "/run/systemd" \
-        ! -path "/run/systemd/*" \
-        -exec rm -rf {} + && \
-    \
     # Logs
     rm -f /var/log/dnf5.log && \
     find /var/log -type f -delete && \
