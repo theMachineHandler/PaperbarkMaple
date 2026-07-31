@@ -4,7 +4,6 @@
 FROM scratch AS ctx
 COPY build_files /
 COPY system_files /system_files
-RUN chmod +x /ctx/cleanup 
 
 
 # Base immutable operating system image.
@@ -101,9 +100,7 @@ RUN --mount=type=cache,dst=/var/cache \
     fi && \
     \
     dnf5 config-manager setopt \
-        fedora-multimedia.priority=90 && \
-    \
-    /ctx/cleanup
+        fedora-multimedia.priority=90
 
 
 # Configure additional repositories used by Bazzite.
@@ -181,9 +178,7 @@ RUN --mount=type=cache,dst=/var/cache \
     \
     # Avoid pulling incompatible kernel packages from Audinux.
     dnf5 config-manager setopt \
-        "*audinux*".exclude="kernel*" && \
-    \
-    /ctx/cleanup
+        "*audinux*".exclude="kernel*"
 
 
 # Run user customization scripts.
@@ -195,6 +190,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
 
+RUN dnf5 install -y bazaar
 
 # Validate that the generated image follows bootc requirements.
 RUN bootc container lint
