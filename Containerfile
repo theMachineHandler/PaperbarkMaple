@@ -192,5 +192,31 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 RUN dnf5 install -y flatpak flatseal bazaar distrobox
 
+# Clean image before bootc lint
+RUN \
+    # Remove temporary files
+    rm -rf /tmp/* && \
+    rm -rf /run/* && \
+    \
+    # Remove logs
+    rm -f /var/log/dnf5.log && \
+    find /var/log -type f -delete && \
+    \
+    # bootc does not allow /usr/etc
+    rm -rf /usr/etc && \
+    \
+    # Remove boot contents
+    rm -rf /boot/* && \
+    \
+    # Remove DNF state
+    rm -rf /var/lib/dnf && \
+    rm -rf /var/cache/dnf && \
+    rm -rf /var/cache/libdnf5 && \
+    \
+    # Recreate expected directories
+    mkdir -p /var/cache/libdnf5 && \
+    mkdir -p /var/tmp && \
+    chmod 1777 /var/tmp
+
 # Validate that the generated image follows bootc requirements.
 RUN bootc container lint
