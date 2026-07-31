@@ -192,31 +192,37 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 RUN dnf5 install -y flatpak flatseal bazaar distrobox
 
-# Clean image before bootc lint
 RUN \
-    # Remove temporary files
+    # Temporary files
     rm -rf /tmp/* && \
-    rm -rf /run/* && \
     \
-    # Remove logs
+    # Runtime files created during the build
+    find /run -mindepth 1 \
+        ! -path "/run/systemd" \
+        ! -path "/run/systemd/*" \
+        -exec rm -rf {} + && \
+    \
+    # Logs
     rm -f /var/log/dnf5.log && \
     find /var/log -type f -delete && \
     \
-    # bootc does not allow /usr/etc
+    # bootc implementation details
     rm -rf /usr/etc && \
     \
-    # Remove boot contents
+    # Boot directory
     rm -rf /boot/* && \
     \
-    # Remove DNF state
+    # DNF metadata
     rm -rf /var/lib/dnf && \
     rm -rf /var/cache/dnf && \
     rm -rf /var/cache/libdnf5 && \
-    \
-    # Recreate expected directories
     mkdir -p /var/cache/libdnf5 && \
+    \
+    # Temporary directory
     mkdir -p /var/tmp && \
     chmod 1777 /var/tmp
+
+RUN ostree container commit
 
 # Validate that the generated image follows bootc requirements.
 RUN bootc container lint
