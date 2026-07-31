@@ -46,6 +46,33 @@ RUN dnf5 install -y \
     man-db \
     vim-minimal
 
+RUN --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/cache/libdnf5 \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=tmpfs,dst=/tmp \
+    mkdir -p /var/roothome && \
+    dnf5 -y install \
+        dnf5-plugins \
+        fedora-repos-archive \
+        zstd && \
+    dnf5 -y swap --repo=fedora \
+        OpenCL-ICD-Loader ocl-icd && \
+    dnf5 -y copr enable ublue-os/packages && \
+    dnf5 -y copr enable ublue-os/staging && \
+    dnf5 -y install \
+        ublue-os-just \
+        ublue-os-luks \
+        ublue-os-signing \
+        ublue-os-udev-rules \
+        ublue-os-update-services && \
+    if ! grep -q fedora-multimedia < <(dnf5 repolist); then \
+        dnf5 config-manager setopt fedora-multimedia.enabled=1 || \
+        dnf5 config-manager addrepo \
+            --from-repofile=https://negativo17.org/repos/fedora-multimedia.repo; \
+    fi && \
+    dnf5 config-manager setopt fedora-multimedia.priority=90
+
 # Setup Copr repos
 RUN --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/cache/libdnf5 \
