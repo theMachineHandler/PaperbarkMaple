@@ -4,6 +4,7 @@
 FROM scratch AS ctx
 COPY build_files /
 COPY system_files /system_files
+RUN chmod +x /cleanup 
 
 
 # Base immutable operating system image.
