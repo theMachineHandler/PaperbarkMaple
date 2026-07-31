@@ -190,7 +190,7 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
 
-RUN dnf5 install -y flatpak flatseal bazaar distrobox distroshelf
+RUN dnf5 install -y flatpak flatseal bazaar distrobox
 
 # Validate that the generated image follows bootc requirements.
 RUN bootc container lint
