@@ -49,6 +49,7 @@ RUN dnf5 install -y \
     systemd-resolved \
     firewalld \
     fwupd \
+    linux-firmware \
     zram-generator-defaults \
     plymouth \
     e2fsprogs \
